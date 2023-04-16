@@ -13,14 +13,21 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".ui.CreatePlayerActivity"
+            android:label="CreatePlayerActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.GameActivity"
+            android:label="GameActivity" />
     </application>
 
 </manifest>

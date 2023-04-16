@@ -1,14 +1,12 @@
 package com.example.tictactoekotlin.model
 
-data class Field(
-    var x: Int,
-    var y: Int
-) {
-    fun getX(): Int {
-        return x
-    }
+import android.os.Parcelable
+import com.example.tictactoekotlin.enum.Symbol
+import kotlinx.parcelize.Parcelize
 
-    fun getY(): Int {
-        return y
-    }
-}
+@Parcelize
+data class Field(
+    val x: Int,
+    val y: Int,
+    var symbol: Symbol?
+) : Parcelable

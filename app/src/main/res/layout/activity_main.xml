@@ -12,12 +12,12 @@
         android:gravity="center_vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
-
         <TextView
             android:id="@+id/player_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:minHeight="48dp"
+            android:onClick="changeName"
             android:textColor="#ffffff"
             android:textSize="24sp"
             tools:text="Artjoms Bogatirjovs" />
@@ -84,10 +84,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/play_with_computer"
-            android:layout_marginTop="16dp"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_background"
             android:text="@string/play_with_computer"
             android:textColor="@android:color/black" />
@@ -104,4 +104,23 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/github"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:elevation="10dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal">
+
+        <pl.droidsonroids.gif.GifImageButton
+            android:id="@+id/githubButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/github"
+            android:gravity="center"
+            android:onClick="openLink" />
+    </LinearLayout>
+
 </RelativeLayout>
+

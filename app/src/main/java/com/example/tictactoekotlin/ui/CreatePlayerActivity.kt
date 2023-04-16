@@ -26,6 +26,7 @@ class CreatePlayerActivity : AppCompatActivity(R.layout.activity_create_player) 
             if (playerName.isBlank()) {
                 Toast.makeText(applicationContext, "Enter your name", Toast.LENGTH_SHORT).show()
             } else {
+                playerNameShown = playerName
                 val id = database.push().key!!
                 val player = Player(playerName.trim(), id)
                 savePlayer(player)
@@ -35,7 +36,15 @@ class CreatePlayerActivity : AppCompatActivity(R.layout.activity_create_player) 
             }
         }
     }
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }
+
+
 
 private fun Context.savePlayer(player: Player) =
     getSharedPreferences("settings", Context.MODE_PRIVATE).edit().apply {

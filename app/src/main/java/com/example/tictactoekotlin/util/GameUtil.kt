@@ -7,7 +7,7 @@ import com.example.tictactoekotlin.enum.Symbol
 import com.example.tictactoekotlin.model.Field
 import com.example.tictactoekotlin.model.Game
 
-private var winSymbol:Symbol? = null
+private var winSymbol: Symbol? = null
 
 fun createGameBoard(): ArrayList<Field> {
     val tempBoard = arrayListOf<Field>()
@@ -29,7 +29,7 @@ fun makeMove(but: AppCompatButton, fieldX: Int, fieldY: Int, game: Game) {
         but.setBackgroundResource(R.drawable.x)
     else
         but.setBackgroundResource(R.drawable.o)
-    game.symbolMove = if (game.symbolMove == Symbol.X) Symbol.O else Symbol.X
+    game.symbolMove = getOppositeSymbol(game.symbolMove)
 }
 
 fun isMoveAllowed(game: Game, x: Int, y: Int): Boolean {
@@ -38,6 +38,10 @@ fun isMoveAllowed(game: Game, x: Int, y: Int): Boolean {
 
 fun getField(game: Game, x: Int, y: Int): Field {
     return game.gameBoard.find { field -> field.x == x && field.y == y }!!
+}
+
+fun getOppositeSymbol(symbol: Symbol): Symbol {
+    return if (symbol == Symbol.X) Symbol.O else Symbol.X
 }
 
 fun isGameFinished(game: Game): Boolean {
@@ -118,5 +122,6 @@ private fun isDraw(game: Game): Boolean {
             getField(game, j, i).symbol ?: return false
         }
     }
+    game.gameStatus = GameStatus.DRAW
     return true
 }

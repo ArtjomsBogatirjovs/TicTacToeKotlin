@@ -10,9 +10,7 @@ import com.example.tictactoekotlin.enum.GameStatus
 import com.example.tictactoekotlin.enum.GameType
 import com.example.tictactoekotlin.model.GAME_ATTRIBUTE
 import com.example.tictactoekotlin.model.Game
-import com.example.tictactoekotlin.util.builderMessage
-import com.example.tictactoekotlin.util.isGameFinished
-import com.example.tictactoekotlin.util.makeMove
+import com.example.tictactoekotlin.util.*
 
 class GameActivity : AppCompatActivity(R.layout.activity_game) {
 
@@ -25,6 +23,10 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
             game = intent.getParcelableExtra(GAME_ATTRIBUTE)!!
         } catch (e: Exception) {
             builderMessage(this, e.message!!)
+            finish()
+        }
+        if(!game.playerTurn){
+            makeBotMove(game)
         }
     }
 
@@ -75,6 +77,7 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
                     fieldX = 3
                 }
             }
+
             makeMove(but, fieldX, fieldY, game)
 
             if (isGameFinished(game)) {
@@ -84,7 +87,11 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
 
             if (game.gameType == GameType.PvE) {
                 game.playerTurn = false
+                game.symbolMove = getOppositeSymbol(game.symbolMove)
+                makeBotMove(game)
             }
+        } else {
+            builderMessage(this, "Not your turn!")
         }
     }
 

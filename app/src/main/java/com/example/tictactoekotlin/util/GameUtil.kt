@@ -19,16 +19,28 @@ fun createGameBoard(): ArrayList<Field> {
     return tempBoard
 }
 
-fun makeMove(but: AppCompatButton, fieldX: Int, fieldY: Int, game: Game) {
+fun cloneGameBoard(board: List<Field>): ArrayList<Field> {
+    val tempBoard = arrayListOf<Field>()
+    for (field in board) {
+        tempBoard.add(Field(field.x, field.y, field.symbol))
+    }
+    return tempBoard
+}
+
+fun makeMove(but: AppCompatButton?, fieldX: Int, fieldY: Int, game: Game) {
     if (!isMoveAllowed(game, fieldX, fieldY)) {
         return
     }
     val field = getField(game, fieldX, fieldY)
     field.symbol = game.symbolMove
-    if (game.symbolMove == Symbol.X)
-        but.setBackgroundResource(R.drawable.x)
-    else
-        but.setBackgroundResource(R.drawable.o)
+
+    if (but != null) {
+        if (game.symbolMove == Symbol.X)
+            but.setBackgroundResource(R.drawable.x)
+        else
+            but.setBackgroundResource(R.drawable.o)
+    }
+
     game.symbolMove = getOppositeSymbol(game.symbolMove)
 }
 
@@ -42,6 +54,11 @@ fun getField(game: Game, x: Int, y: Int): Field {
 
 fun getOppositeSymbol(symbol: Symbol): Symbol {
     return if (symbol == Symbol.X) Symbol.O else Symbol.X
+}
+
+fun availableFields(game: Game): List<Field> {
+    val board = game.gameBoard
+    return board.filter { field -> field.symbol == null }
 }
 
 fun isGameFinished(game: Game): Boolean {
@@ -59,7 +76,7 @@ fun isGameFinished(game: Game): Boolean {
 
 private fun isWinHorizontal(game: Game) {
     for (i in 1..3) {
-        val symbol = getField(game, i, 1).symbol ?: return
+        val symbol = getField(game, i, 1).symbol ?: continue
         for (j in 2..3) {
             val symbolHorizontal = getField(game, i, j).symbol
             if (symbol != symbolHorizontal) {
@@ -74,7 +91,7 @@ private fun isWinHorizontal(game: Game) {
 
 private fun isWinVertical(game: Game) {
     for (i in 1..3) {
-        val symbol = getField(game, 1, i).symbol ?: return
+        val symbol = getField(game, 1, i).symbol ?: continue
         for (j in 2..3) {
             val symbolVertical = getField(game, j, i).symbol
             if (symbol != symbolVertical) {

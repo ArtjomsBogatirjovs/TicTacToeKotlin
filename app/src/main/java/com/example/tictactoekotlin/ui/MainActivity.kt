@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 val id = database.push().key!!
                 val newGame = Game(
                     createGameBoard(),
-                    GameType.PvP,
+                    GameType.PvE,
                     player,
                     id,
                     player.symbol == Symbol.X,
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         playerNameShown = null
         recreate()
     }
-    @Suppress("DEPRECATION")
+
     override fun onBackPressed() {
         finishAffinity()
     }

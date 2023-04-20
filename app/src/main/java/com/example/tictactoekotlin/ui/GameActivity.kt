@@ -1,5 +1,6 @@
 package com.example.tictactoekotlin.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -25,8 +26,11 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
             builderMessage(this, e.message!!)
             finish()
         }
-        if(!game.playerTurn){
-            makeBotMove(game)
+        if (!game.playerTurn) {
+            val buttonId = "field" + getFieldToMove(game)
+            val button = findButtonByText(buttonId)
+            makeMove(button, bestField!!.x, bestField!!.y, game)
+            game.playerTurn = true
         }
     }
 
@@ -78,6 +82,10 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
                 }
             }
 
+            if (!isMoveAllowed(game, fieldX, fieldY)) {
+                return
+            }
+
             makeMove(but, fieldX, fieldY, game)
 
             if (isGameFinished(game)) {
@@ -87,8 +95,15 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
 
             if (game.gameType == GameType.PvE) {
                 game.playerTurn = false
-                game.symbolMove = getOppositeSymbol(game.symbolMove)
-                makeBotMove(game)
+                val buttonId = "field" + getFieldToMove(game)
+                val button = findButtonByText(buttonId)
+                makeMove(button, bestField!!.x, bestField!!.y, game)
+                game.playerTurn = true
+            }
+
+            if (isGameFinished(game)) {
+                builderMessage(this, game.gameStatus.getMessage())
+                return
             }
         } else {
             builderMessage(this, "Not your turn!")
@@ -99,6 +114,20 @@ class GameActivity : AppCompatActivity(R.layout.activity_game) {
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private fun findButtonByText(id: String): AppCompatButton? {
+        val rootLayout = findViewById<View>(android.R.id.content)
+        if (rootLayout != null) {
+            val resId = resources.getIdentifier(
+                id,
+                "id",
+                packageName
+            )
+            return findViewById(resId)
+        }
+        return null
     }
 }
 

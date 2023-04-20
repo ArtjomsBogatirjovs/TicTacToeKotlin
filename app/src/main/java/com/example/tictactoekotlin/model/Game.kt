@@ -16,7 +16,11 @@ data class Game(
     var playerTurn: Boolean,
     var symbolMove: Symbol = Symbol.X,
     var gameStatus: GameStatus
-) : Parcelable
+) : Parcelable, Cloneable {
+    public override fun clone(): Game {
+        return super.clone() as Game
+    }
+}
 
 const val GAME_ATTRIBUTE = "game"
 const val DATABASE_ATTRIBUTE = "games"
